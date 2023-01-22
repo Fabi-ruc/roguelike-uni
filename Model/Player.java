@@ -1,27 +1,26 @@
 package Model;
 
+import java.util.HashMap;
+
 import Help.Tuple;
 
 public class Player extends ScreenElement{
-    private World world;
+    private HashMap<String, Screen> map = new HashMap<>();
+    public final Tuple<Integer,Integer> screenSize;
 
     public Player(int xSize, int ySize){
         super(new Screen(new Tuple<Integer,Integer>(0,0), new Tuple<Integer,Integer>(1, 1)), null, false, null,new Tuple<Float,Float>(100.0f,100.0f), 10, 50, 5, 50, 500, 0, 0, 1);
-        world = new World(this,new Tuple<Integer,Integer> (xSize,ySize));
-        screen = world.getOrigin();
+        this.screenSize = new Tuple<Integer,Integer>(xSize, ySize);
+        reset();
     }
 
     public Player(Tuple<Float,Float> pos, Tuple<Float,Float> HP, int size, int range, int facedir, int team){
         super(null, pos, false, null,HP, size, range, 0, 0, 0, 0, facedir, team);
+        screenSize = new Tuple<Integer,Integer>(1,1);
     }
 
     public ScreenElement copy(){
         return new Player(pos,HP,size,atkrange,facedir, team);
-    }
-
-    public void setWorld(World w){
-        world = w;
-        screen = w.getOrigin();
     }
 
     @Override
@@ -30,7 +29,7 @@ public class Player extends ScreenElement{
             try {
                 sleep(1000);
                 if(HP.a <= 0)
-                    world.reset();
+                    reset();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -73,28 +72,49 @@ public class Player extends ScreenElement{
         }
     }
 
-    private void moveScreen(boolean[] next){
-        if(next[0]||next[1]){
+    private void moveScreen(boolean[] dir){
+        if(dir[0]||dir[1]){
             pos = new Tuple<Float,Float>(screen.size.a-pos.a,pos.b);
         }else{
             pos = new Tuple<Float,Float>(pos.a,screen.size.b - pos.b);
         }
         screen.remove(this);
         screen.setActivity(false);
-        screen = world.nextScreen(screen, next);
-        //screen.add(this);
+
+        Tuple<Integer,Integer> nextKey = new Tuple<Integer,Integer>((!dir[2]) ? (!dir[3] ? (screen.location.a) : (screen.location.a+1)) : (screen.location.a-1),(!dir[0]) ? (!dir[1] ? (screen.location.b) : (screen.location.b+1)) : (screen.location.b-1));
+        if(map.containsKey(nextKey.toString())){
+            screen = map.get(nextKey.toString());
+        }else{
+            screen = new Screen(nextKey, screenSize);
+            map.put(nextKey.toString(),screen);
+        }
+
         screen.setActivity(true);
         screen.add(this);
-        //System.out.println("pos: "+ pos.toString());
     }
     
     public Screen getScreen(){
         return screen;
     }
 
-    public void reset(Screen newScreen){
+    public void reset(){
+        System.out.println("reset");
+        map.forEach((k,screen) -> screen.setActivity(false));
+        this.map = new HashMap<>();
+        Tuple<Integer, Integer> location = new Tuple<Integer,Integer>(0, 0);
+        Screen newScreen = new Screen(location, screenSize);
+        newScreen.add(this);
         screen = newScreen;
         pos = new Tuple<Float,Float>((float)newScreen.size.a/2, (float)newScreen.size.b/2);
         HP = new Tuple<Float,Float>(100.0f,100.0f);
+        map.put(location.toString(), newScreen);
     }
+
+    /**
+     * you dum dum tupel cant be used as a key.... its a refernce, use string and to string instead
+     * 
+     * @param cur the current screen
+     * @param dir 4 dim array describing direction. [0] left, [1] right, [2] down, [3] up
+     * @return
+     */
 }
