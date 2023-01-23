@@ -7,15 +7,16 @@ import Model.BasicEnemy;
 import Model.DamageSemicircle;
 import Model.ScreenElement;
 import Model.Player;
+import View.IView;
 import View.RenderCircle;
 import View.RenderSemiCircle;
 import View.View;
 
-public class control extends Thread{
+public class Control extends Thread implements IControl{
     private Player p;
-    private View v;
+    private IView v;
 
-    public control(){
+    public Control(){
         this.start();
     }
 
@@ -23,7 +24,7 @@ public class control extends Thread{
         this.p = p;
     }
 
-    public void setView(View v){
+    public void setView(IView v){
         this.v = v;
     }
 
@@ -72,6 +73,6 @@ public class control extends Thread{
      * taking key inputs from the view to the model
      */
     private void vtom(){
-        p.keyInput(v.keys,v.mouseX-50,v.mouseY-50);
+        p.keyInput(v.getKeys(),v.getMouseX(),v.getMouseY());
     }
 }

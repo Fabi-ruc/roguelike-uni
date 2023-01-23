@@ -17,29 +17,29 @@ public class Screen {
     //private LinkedList<Tupel<Obstacle,Tupel<Tupel<Integer, Integer>,Tupel<Integer,Integer>>>> obstacles; Obstacles to be implemented at a later date
     private LinkedList<ScreenElement> elems = new LinkedList<ScreenElement>();
     Semaphore elemsSemaphore = new Semaphore(1);
-    public final Tuple<Integer,Integer> size, location;
-    private boolean activity = true ,locked = true;
+    public final Tuple<Integer, Integer> size, location;
+    private boolean activity = true, locked = true;
 
-    public Screen(Tuple<Integer,Integer> location, Tuple<Integer, Integer> size){
+    public Screen(Tuple<Integer, Integer> location, Tuple<Integer, Integer> size) {
         this.size = size;
         this.location = location;
         rdmScreen();
     }
 
-    void setActivity(boolean activity){
+    void setActivity(boolean activity) {
         //System.out.println("setActivity to: "+activivity);
         this.activity = activity;
     }
 
-    boolean getActive(){
+    boolean getActive() {
         return activity;
     }
 
-    public boolean getlocked(){
+    public boolean getlocked() {
         return locked;
     }
 
-    public List<ScreenElement> export(){
+    public List<ScreenElement> export() {
         try {
             elemsSemaphore.acquire();
             List<ScreenElement> out = elems.stream().map(e -> e.copy()).collect(Collectors.toList());
@@ -51,11 +51,11 @@ public class Screen {
         }
     }
 
-    Iterator<ScreenElement> elemsIter(){
+    Iterator<ScreenElement> elemsIter() {
         return elems.iterator();
     }
 
-    public void remove(ScreenElement e){
+    public void remove(ScreenElement e) {
         try {
             elemsSemaphore.acquire();
             elems.remove(e);
@@ -66,7 +66,7 @@ public class Screen {
         }
     }
 
-    public void add(ScreenElement e){
+    public void add(ScreenElement e) {
         try {
             elemsSemaphore.acquire();
             elems.add(e);
@@ -74,18 +74,18 @@ public class Screen {
         } catch (InterruptedException e1) {
             e1.printStackTrace();
         }
-        if(e.getClass() == Player.class)
+        if (e.getClass() == Player.class)
             elems.stream().filter(x -> !x.friendly(1)).forEach(x -> x.SetTarget(e));
     }
 
-    public Tuple<Float, Float> rdmPos(){
-        return new Tuple<Float,Float>((float)(Math.random()*size.a), (float)(Math.random()*size.b));
+    public Tuple<Float, Float> rdmPos() {
+        return new Tuple<Float, Float>((float) (Math.random() * size.a), (float) (Math.random() * size.b));
     }
 
-    public void rdmScreen(){
-        for(int i = 0; i < (Math.random()+0.75)*2*Math.log(Math.sqrt(location.a*location.a+location.b*location.b)+1); i++){
-            float rdmHP = (int)(10+10*Math.sqrt(location.a*location.a+location.b*location.b)*Math.random());
-            BasicEnemy b = new BasicEnemy(this,null,  true, new Tuple<Float,Float>(rdmHP,rdmHP), 8, 20, 6, 35, 1000, 0, -1);
+    public void rdmScreen() {
+        for (int i = 0; i < (Math.random() + 0.75) * 2 * Math.log(Math.sqrt(location.a * location.a + location.b * location.b) + 1); i++) {
+            float rdmHP = (int) (10 + 10 * Math.sqrt(location.a * location.a + location.b * location.b) * Math.random());
+            BasicEnemy b = new BasicEnemy(this, null, true, new Tuple<Float, Float>(rdmHP, rdmHP), 8, 20, 6, 35, 1000, 0, -1);
             elems.add(b);
             b.start();
         }
