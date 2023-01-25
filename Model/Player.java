@@ -21,7 +21,8 @@ public class Player extends ScreenElement {
      * @param textout if the current screenElements should be printed to the terminal
      */
     public Player(int xSize, int ySize, boolean textout) {
-        super(new Screen(new Tuple<Integer, Integer>(0, 0), new Tuple<Integer, Integer>(1, 1)), null, false, null, new Tuple<Float, Float>(100.0f, 100.0f), 10, 50, 5, 50, 500, 0, 0, 1);
+        super(new Screen(new Tuple<Integer, Integer>(0, 0), new Tuple<Integer, Integer>(1, 1)), null, false, null,
+                new Tuple<Float, Float>(100.0f, 100.0f), 10, 50, 5, 50, 500, 0, 0, 1);
         this.screenSize = new Tuple<Integer, Integer>(xSize, ySize);
         this.textout = textout;
         reset();
@@ -122,7 +123,8 @@ public class Player extends ScreenElement {
         }
         screen.remove(this);
         screen.setActivity(false);
-        Tuple<Integer, Integer> nextKey = new Tuple<Integer, Integer>((!dir[2]) ? (!dir[3] ? (screen.getLocation().a) : (screen.getLocation().a + 1)) : (screen.getLocation().a - 1), (!dir[0]) ? (!dir[1] ? (screen.getLocation().b) : (screen.getLocation().b + 1)) : (screen.getLocation().b - 1));
+        Tuple<Integer, Integer> nextKey = new Tuple<Integer, Integer>((!dir[2]) ? (!dir[3] ? (screen.getLocation().a) : (screen.getLocation().a + 1)) : (screen.getLocation().a - 1),
+                (!dir[0]) ? (!dir[1] ? (screen.getLocation().b) : (screen.getLocation().b + 1)) : (screen.getLocation().b - 1));
         if (map.containsKey(nextKey.toString())) {
             screen = map.get(nextKey.toString());
         } else {

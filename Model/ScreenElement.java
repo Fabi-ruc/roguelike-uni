@@ -29,7 +29,8 @@ public class ScreenElement extends Thread {
      * @param facedir    the direction a screenElement is facing
      * @param team       the team the screenElement is part of
      */
-    ScreenElement(Screen screen, Tuple<Float, Float> pos, boolean rdmPosFlag, ScreenElement target, Tuple<Float, Float> HP, int size, int range, int speed, int atkdmg, int atkspeed, int atkdelay, int facedir, int team) {
+    ScreenElement(Screen screen, Tuple<Float, Float> pos, boolean rdmPosFlag, ScreenElement target, Tuple<Float, Float> HP,
+                  int size, int range, int speed, int atkdmg, int atkspeed, int atkdelay, int facedir, int team) {
         this.target = target;
         this.screen = screen;
         this.HP = HP;
@@ -175,8 +176,10 @@ public class ScreenElement extends Thread {
      * @return A Tuple<Float,Float>(new x position, new y position) describing the new Coordinates the screenElement would be at
      */
     protected Tuple<Float, Float> moveto() {
-        float newx = (pos.a + speed * (float) Math.sin(Math.toRadians(facedir)) > size) ? ((pos.a + speed * (float) Math.sin(Math.toRadians(facedir)) < screen.getSize().a - size) ? (pos.a + speed * (float) Math.sin(Math.toRadians(facedir))) : (screen.getSize().a - size)) : size;
-        float newy = (pos.b - speed * (float) Math.cos(Math.toRadians(facedir)) > size) ? ((pos.b - speed * (float) Math.cos(Math.toRadians(facedir)) < screen.getSize().b - size) ? (pos.b - speed * (float) Math.cos(Math.toRadians(facedir))) : (screen.getSize().b - size)) : size;
+        float newx = (pos.a + speed * (float) Math.sin(Math.toRadians(facedir)) > size) ? ((pos.a + speed * (float) Math.sin(Math.toRadians(facedir))
+                < screen.getSize().a - size) ? (pos.a + speed * (float) Math.sin(Math.toRadians(facedir))) : (screen.getSize().a - size)) : size;
+        float newy = (pos.b - speed * (float) Math.cos(Math.toRadians(facedir)) > size) ? ((pos.b - speed * (float) Math.cos(Math.toRadians(facedir))
+                < screen.getSize().b - size) ? (pos.b - speed * (float) Math.cos(Math.toRadians(facedir))) : (screen.getSize().b - size)) : size;
         return new Tuple<Float, Float>(newx, newy);
     }
 

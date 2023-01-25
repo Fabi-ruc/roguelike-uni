@@ -6,7 +6,7 @@ public class DamageSemicircle extends ScreenElement {
     /**
      * the degrees of the partial circle
      */
-    private int degrees;
+    private final int degrees;
 
     /**
      * The Constructor of a DamageSemiCircle
@@ -60,7 +60,8 @@ public class DamageSemicircle extends ScreenElement {
                     if ((!friendly(e.team)) && (e.getClass() != this.getClass())) {
                         double moveby = Math.toRadians(facedir) * e.size / Math.sin(Math.toRadians(degrees / 2));
                         Tuple<Float, Float> hitboxorigin = new Tuple<Float, Float>(pos.a + (float) Math.cos(moveby), pos.b + (float) Math.sin(moveby));
-                        if ((betweenDistance(e.getPos()) - size - e.size <= 0) && (Math.floorMod(180 + (int) e.betweenAngle(hitboxorigin), 360) >= facedir - degrees / 2) && (Math.floorMod(180 + (int) e.betweenAngle(hitboxorigin), 360) <= facedir + degrees / 2))
+                        if ((betweenDistance(e.getPos()) - size - e.size <= 0) && (Math.floorMod(180 + (int) e.betweenAngle(hitboxorigin), 360)
+                                >= facedir - degrees / 2) && (Math.floorMod(180 + (int) e.betweenAngle(hitboxorigin), 360) <= facedir + degrees / 2))
                             e.HP = new Tuple<Float, Float>(e.HP.a - atkdmg, e.HP.b);
                     }
                 }

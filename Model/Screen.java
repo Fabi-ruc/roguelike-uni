@@ -39,7 +39,8 @@ public class Screen {
         this.location = location;
         for (int i = 0; i < (Math.random() + 0.75) * 2 * Math.log(Math.sqrt(location.a * location.a + location.b * location.b) + 1); i++) {
             float rdmHP = (int) (10 + 10 * Math.sqrt(location.a * location.a + location.b * location.b) * Math.random());
-            ScreenElement b = new ScreenElement(this, null, true, null, new Tuple<Float, Float>(rdmHP, rdmHP), 8, 20, 6, 35, 1000, 100, 0, -1);
+            ScreenElement b = new ScreenElement(this, null, true, null, new Tuple<Float, Float>(rdmHP, rdmHP),
+                    8, 20, 6, 35, 1000, 100, 0, -1);
             add(b);
             b.start();
         }
