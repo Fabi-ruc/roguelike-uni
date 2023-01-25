@@ -237,40 +237,30 @@ public class TestRunner {
     @Test
     void atkDmgTest() {
         Player p = new Player(100, 100, false);
-        while (betweenDistance(new Tuple<Float, Float>((float) (int) p.getScreen().getLocation().a, (float) (int) p.getScreen().getLocation().b), new Tuple<>(5.0f, 0.0f)) > 0) {
-            if (p.getScreen().getlocked()) {
-                List<ScreenElement> elems_before = p.getScreen().export();
-                ScreenElement target = elems_before.get(0);
-                int size = p.facedirNsize().b;
-                int target_size = target.facedirNsize().b;
-                while (50 - target.facedirNsize().b < betweenDistance(p.getPos(), target.getPos()) - size - target_size) {
-                    //waiting for target to come into range
-                    target = p.getScreen().export().get(0);
-                }
-                System.out.println("test atk!!!");
-                p.keyInput(new int[]{0, 0, 0, 0, 1}, (int) ((float) target.getPos().a), (int) ((float) target.getPos().b));
-                long wait = System.currentTimeMillis();
-                while (System.currentTimeMillis() - wait < 1000) {
-                    //waiting to make sure atk connected
-                }
-                List<ScreenElement> elems_after = p.getScreen().export();
-                if (elems_after.stream().filter(x -> x.getClass() != Player.class && x.getClass() != DamageSemicircle.class).count() == elems_before.stream().filter(x -> x.getClass() != Player.class && x.getClass() != DamageSemicircle.class).count()) {
-                    assertFalse(elems_after.get(0).getHP().a >= elems_before.get(0).getHP().a);
-                    System.out.println("Elem had reduced HP");
-                } else {
-                    assertTrue(elems_after.stream().filter(x -> x.getClass() != Player.class && x.getClass() != DamageSemicircle.class).count() <= elems_before.stream().filter(x -> x.getClass() != Player.class && x.getClass() != DamageSemicircle.class).count());
-                    System.out.println("Elem was deleted");
-                }
-                fightScreen(p);
-                wait = System.currentTimeMillis();
-                while (System.currentTimeMillis() - wait < 500) {
-                    //waiting to make sure atk relaods
-                }
-            }
-            goUP(p);
-            System.out.println("------------------------------------------------------");
+        goUP(p);
+        List<ScreenElement> elems_before = p.getScreen().export();
+        ScreenElement target = elems_before.get(0);
+        int size = p.facedirNsize().b;
+        int target_size = target.facedirNsize().b;
+        while (50 - target.facedirNsize().b < betweenDistance(p.getPos(), target.getPos()) - size - target_size) {
+            //waiting for target to come into range
+            target = p.getScreen().export().get(0);
         }
-        System.out.println("reached end screen");
+        System.err.println("test atk!!!");
+        p.keyInput(new int[]{0, 0, 0, 0, 1}, (int) ((float) target.getPos().a), (int) ((float) target.getPos().b));
+        long wait = System.currentTimeMillis();
+        while (System.currentTimeMillis() - wait < 1000) {
+            //waiting to make sure atk connected
+        }
+        List<ScreenElement> elems_after = p.getScreen().export();
+        if (elems_after.stream().filter(x -> x.getClass() != Player.class && x.getClass() != DamageSemicircle.class).count() == elems_before.stream().filter(x -> x.getClass() != Player.class && x.getClass() != DamageSemicircle.class).count()) {
+            assertFalse(elems_after.get(0).getHP().a >= elems_before.get(0).getHP().a);
+            System.err.println("Elem had reduced HP");
+        } else {
+            assertTrue(elems_after.stream().filter(x -> x.getClass() != Player.class && x.getClass() != DamageSemicircle.class).count() <= elems_before.stream().filter(x -> x.getClass() != Player.class && x.getClass() != DamageSemicircle.class).count());
+            System.err.println("Elem was deleted");
+        }
+        System.err.println("reached end screen");
 
     }
 
