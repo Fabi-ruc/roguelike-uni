@@ -3,14 +3,12 @@ package Controller;
 import java.util.LinkedList;
 import java.util.List;
 
-import Model.BasicEnemy;
 import Model.DamageSemicircle;
 import Model.ScreenElement;
 import Model.Player;
 import View.IView;
 import View.RenderCircle;
 import View.RenderSemiCircle;
-import View.View;
 
 public class Control extends Thread implements IControl{
     private Player p;
@@ -52,7 +50,7 @@ public class Control extends Thread implements IControl{
      * taking model data to the view
      */
     private void mtov(){
-        v.screenImport(p.getScreen().location, p.getScreen().getlocked());
+        v.screenImport(p.getScreen().getLocation(), p.getScreen().getlocked());
         List<ScreenElement> l = p.getScreen().export();
         LinkedList<RenderCircle> out = new LinkedList<>();
         for(ScreenElement e: l){
@@ -61,12 +59,11 @@ public class Control extends Thread implements IControl{
             }else if(e.getClass() == DamageSemicircle.class){
                 DamageSemicircle f = (DamageSemicircle) e;
                 out.add(new RenderSemiCircle(f.getPos(), f.getHP(), f.facedirNsize().b, f.facedirNsize().a, f.getDeg(), new int[]{0,0,0,90}));
-            }else if(e.getClass() == BasicEnemy.class){
+            }else if(e.getClass() == ScreenElement.class){
                 out.add(new RenderCircle(e.getPos(), e.getHP(), e.facedirNsize().b, e.facedirNsize().a, new int[]{255,0,0,255}));
             }
         }
         v.elemImport(out);
-        //System.out.println("finished mtov");
     }
 
     /**

@@ -7,8 +7,8 @@ import View.View;
 public class Main {
     public static void main(String[] args) {
         System.out.println("go");
-        Tuple<Integer,Integer> size = new Tuple<Integer,Integer>(1000,600);
-        Player p = new Player(size.a, size.b);
+        Tuple<Integer, Integer> size = new Tuple<Integer, Integer>(1000, 600);
+        Player p = new Player(size.a, size.b, true);
         //maybe move to player
         p.start();
         IView v = new View(size);
@@ -16,5 +16,5 @@ public class Main {
         c.setView(v);
         c.setPlayer(p);
     }
-    
+
 }

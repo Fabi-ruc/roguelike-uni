@@ -1,41 +1,67 @@
 package Model;
 
-import java.util.Iterator;
-
 import Help.Tuple;
 
 public class DamageSemicircle extends ScreenElement {
+    /**
+     * the degrees of the partial circle
+     */
     private int degrees;
 
+    /**
+     * The Constructor of a DamageSemiCircle
+     *
+     * @param screen   the Screen the DamageSemiCircle is located on
+     * @param pos      the center point of the DamageSemiCircle (if it was a full circle)
+     * @param HP       the HP of the DamageSemiCircle (Used to describe how long the SemiCircle will exist on screen)
+     * @param size     the radius of the DamageSemiCircle
+     * @param atkdmg   the Damage the DamageSemiCircle deals
+     * @param atkspeed the time between attacks by the DamageSemiCircle
+     * @param facedir  the direction the damageSemiCircle is facing (in degrees)
+     * @param team     the team that spawned the damageSemiCircle, which will not be attacked
+     * @param degrees  the degrees the damageSemiCircle is open
+     */
     public DamageSemicircle(Screen screen, Tuple<Float, Float> pos, Tuple<Float, Float> HP, int size, int atkdmg, int atkspeed, int facedir, int team, int degrees) {
-        //ScreenElement(Screen screen, Tuple<Float,Float> pos, boolean rdmPosFlag, ScreenElement target, int HP, int size, int range, int speed, int atkdmg, int atkspeed, int atkdelay, int facedir, int team)
         super(screen, pos, false, null, HP, size, Integer.MAX_VALUE, 0, atkdmg, atkspeed, 0, Math.floorMod(facedir, 360), team);
         this.degrees = degrees;
         this.target = this;
     }
 
+    /**
+     * A method that generates a copy of a DamageSemiCircle with all information needed for exporting
+     *
+     * @return
+     */
     @Override
     public ScreenElement copy() {
         return new DamageSemicircle(null, pos, HP, size, 0, 0, facedir, team, degrees);
     }
 
+    /**
+     * A method that returns the Degrees the DamageSemiCircle is Open
+     *
+     * @return the degrees in degrees
+     */
     public int getDeg() {
         return degrees;
     }
 
+    /**
+     * The method to reduce the HP of all ScreenElements, that are not DamageSemiCircles, located within the DamageSemiCircle
+     *
+     * @param unused Is not used, but needed because of the method it is overwriting
+     */
     protected void atk(int unused) {
         if (System.currentTimeMillis() - lastatk > atkspeed) {
             lastatk = System.currentTimeMillis();
             try {
                 screen.elemsSemaphore.acquire();
-                Iterator<ScreenElement> iter = screen.elemsIter();
-                while (iter.hasNext()) {
-                    target = iter.next();
-                    if (!friendly(target.team)) {
-                        double moveby = Math.toRadians(facedir) * target.size / Math.sin(Math.toRadians(degrees / 2));
+                for (ScreenElement e : screen.getElems()) {
+                    if ((!friendly(e.team)) && (e.getClass() != this.getClass())) {
+                        double moveby = Math.toRadians(facedir) * e.size / Math.sin(Math.toRadians(degrees / 2));
                         Tuple<Float, Float> hitboxorigin = new Tuple<Float, Float>(pos.a + (float) Math.cos(moveby), pos.b + (float) Math.sin(moveby));
-                        if ((betweenDistance(target.getPos()) - size - target.size <= 0) && (Math.floorMod(180 + (int) target.betweenAngle(hitboxorigin), 360) >= facedir - degrees / 2) && (Math.floorMod(180 + (int) target.betweenAngle(hitboxorigin), 360) <= facedir + degrees / 2))
-                            target.HP = new Tuple<Float, Float>(target.HP.a - atkdmg, target.HP.b);
+                        if ((betweenDistance(e.getPos()) - size - e.size <= 0) && (Math.floorMod(180 + (int) e.betweenAngle(hitboxorigin), 360) >= facedir - degrees / 2) && (Math.floorMod(180 + (int) e.betweenAngle(hitboxorigin), 360) <= facedir + degrees / 2))
+                            e.HP = new Tuple<Float, Float>(e.HP.a - atkdmg, e.HP.b);
                     }
                 }
                 screen.elemsSemaphore.release();
@@ -46,10 +72,11 @@ public class DamageSemicircle extends ScreenElement {
     }
 
     /**
-     * Coopted to be used as HP reducer, as damge field doesnt move for now
-     * if moving damage circle ever implemented (e.g.: aiming magic), use pathfind with super.pathfind() added in :)
+     * A method used as an HP reducer for DamageSemiCircles.
+     * It is supposed to set the direction a ScreenElement is facing in the direction of its target,
+     * but since DamageSemiCircles don't move for now and the facedir is instead used to describe the direction the SemiCircle is open in it has to be overwritten.
      */
     protected void pathfind() {
-        target.HP = new Tuple<Float, Float>(target.HP.a - 1, target.HP.b);
+        this.HP = new Tuple<Float, Float>(this.HP.a - 1, this.HP.b);
     }
 }

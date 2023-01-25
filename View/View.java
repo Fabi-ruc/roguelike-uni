@@ -5,6 +5,7 @@ import java.util.concurrent.Semaphore;
 
 import Help.Tuple;
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class View extends PApplet implements IView {
     private Tuple<Integer, Integer> size;
@@ -14,6 +15,7 @@ public class View extends PApplet implements IView {
     private Tuple<Integer, Integer> screenID;
     private boolean screenLocked = false;
     private Semaphore elemsSemaphore = new Semaphore(1);
+    private PImage tutorial;
 
     public View(Tuple<Integer, Integer> size) {
         this.size = size;
@@ -25,20 +27,27 @@ public class View extends PApplet implements IView {
     }
 
     public void setup() {
-        while (screenID == null) {
+        tutorial = loadImage("Resources/tutorial.png");
+        if(tutorial.width/size.a <= tutorial.height/size.b){
+            tutorial.resize((int)(0.9f*size.a*tutorial.height/size.b),(int)(0.9f*tutorial.height));
+        }else{
+            tutorial.resize((int)(0.9f*tutorial.width),(int)(0.9f*size.b*tutorial.width/size.a));
         }
+        imageMode(CENTER);
         stroke(0, 0);
+        while (screenID == null){}
     }
 
     public void draw() {
         backdraw();
         doordraw();
-        //draw doors?
         try {
             elemsSemaphore.acquire();
+            //System.out.println("drawing all elems");
             for (RenderCircle e : elems) {
-                //System.out.println("drawing elem e");
+                //System.out.println("\tdrawing elem e");
                 e.draw(super.g, this);
+                //System.out.println(" ");
             }
             elemsSemaphore.release();
         } catch (InterruptedException e) {
@@ -49,7 +58,13 @@ public class View extends PApplet implements IView {
     private void backdraw() {
         int r = 5 * distance < 100 ? (int) (5 * distance) : 100;
         int g = 5 * (20 - distance) > 0 ? (int) (5 * (20 - distance)) : 0;
-        background(color(r, g, 0));
+        fill(color(r, g, 20));
+        //fill(255);
+        rect(50,50,size.a,size.b);
+        if(distance == 0){
+            tint(255,150);
+            image(tutorial,size.a/2+50,size.b/2+50);
+        }
         fill(120);
         rect(0, 0, 50, size.b + 100);
         rect(size.a + 50, 0, 50, size.b + 100);
@@ -59,7 +74,6 @@ public class View extends PApplet implements IView {
         textSize(100);
         textAlign(CENTER, CENTER);
         text(screenID.a + "," + screenID.b, (size.a + 100) / 2, (size.b + 100) / 2);
-        //possibly load textures over the top
     }
 
     private void doordraw() {
@@ -125,6 +139,10 @@ public class View extends PApplet implements IView {
     }
 
     public void screenImport(Tuple<Integer, Integer> screenID, boolean locked) {
+        /*if(screenID.a == 0 && screenID.b == 0 && (this.screenID.a != screenID.b || this.screenID.b != screenID.b)){
+            String user = System.getProperty("user.name");
+            //save distance to json?
+        }*/
         this.screenID = screenID;
         this.screenLocked = locked;
         distance = sqrt(screenID.a * screenID.a + screenID.b * screenID.b);
