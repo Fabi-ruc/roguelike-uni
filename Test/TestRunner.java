@@ -38,7 +38,7 @@ public class TestRunner {
         assertEquals(x, t.a);
         assertEquals(y, t.b);
         assertEquals(x + ":" + y, t.toString());
-        Player p = new Player(100, 100, false);
+        Player p = new Player(100, 100, true, false);
         Tuple<ScreenElement, Integer> u = new Tuple<>(p, 7);
         assertEquals(p, u.a);
         assertEquals(7, u.b);
@@ -47,7 +47,7 @@ public class TestRunner {
 
     @Test
     void degreesTest() {
-        Player p = new Player(100, 0, false);
+        Player p = new Player(100, 0, true, false);
         DamageSemicircle s = null;
         while (s == null) {
             p.keyInput(new int[]{0, 0, 0, 0, 1}, 0, 0);
@@ -62,7 +62,7 @@ public class TestRunner {
 
     @Test
     void copyTest() {
-        Player p = new Player(100, 100, false);
+        Player p = new Player(100, 100, true, false);
         p.keyInput(new int[]{1, 1, 0, 0}, 1, 1);
         ScreenElement pii = p.copy();
         assertEquals(p.getPos(), pii.getPos());
@@ -75,7 +75,7 @@ public class TestRunner {
 
     @Test
     void friendlyTest() {
-        Player p = new Player(100, 100, false);
+        Player p = new Player(100, 100, true, false);
         assertTrue(p.friendly(1));
         assertTrue(p.friendly(Integer.MAX_VALUE));
         assertTrue(p.friendly(257));
@@ -94,12 +94,12 @@ public class TestRunner {
 
     @Test
     void screenSizeTest() {
-        Player p = new Player(0, 0, false);
+        Player p = new Player(0, 0, true, false);
         int x = 0, y = 0;
         for (int i = 0; i < 10; i++) {
             x = (int) (Math.random() * 100);
             y = (int) (Math.random() * 100);
-            p = new Player(x, y, false);
+            p = new Player(x, y, true, false);
             assertEquals(x, p.getScreen().getSize().a);
             assertEquals(y, p.getScreen().getSize().b);
         }
@@ -110,33 +110,33 @@ public class TestRunner {
 
     @Test
     void newPlayerMapOriginTest() {
-        Player p = new Player(100, 100, false);
+        Player p = new Player(100, 100, true, false);
         assertEquals(p.getScreen().getLocation().toString(), (new Tuple<Integer, Integer>(0, 0)).toString());
     }
 
     @Test
     void BasicNextScreenTest() {
-        Player p = new Player(100, 100, false);
+        Player p = new Player(100, 100, true, false);
         Screen o = p.getScreen();
         goUP(p);
         assertEquals((new Tuple<Integer, Integer>(1, 0)).toString(), p.getScreen().getLocation().toString());
         //p.stop();
         System.out.println("---------------------------------------------------------------");
-        p = new Player(100, 100, false);
+        p = new Player(100, 100, true, false);
         while (p.getPos().b > 25) {
             p.keyInput(new int[]{0, 1, 0, 0, 0}, 0, 0);
             System.out.println("Pos: " + p.getPos().toString());
         }
         assertEquals((new Tuple<Integer, Integer>(-1, 0)).toString(), p.getScreen().getLocation().toString());
         System.out.println("---------------------------------------------------------------");
-        p = new Player(100, 100, false);
+        p = new Player(100, 100, true, false);
         while (p.getPos().a < 75) {
             p.keyInput(new int[]{0, 0, 1, 0, 0}, 0, 0);
             System.out.println("Pos: " + p.getPos().toString());
         }
         assertEquals((new Tuple<Integer, Integer>(0, -1)).toString(), p.getScreen().getLocation().toString());
         System.out.println("---------------------------------------------------------------");
-        p = new Player(100, 100, false);
+        p = new Player(100, 100, true, false);
         while (p.getPos().a > 25) {
             p.keyInput(new int[]{0, 0, 0, 1, 0}, 0, 0);
             System.out.println("Pos: " + p.getPos().toString());
@@ -146,7 +146,7 @@ public class TestRunner {
 
     @Test
     void goingEvenFurtherBeyond() {
-        Player p = new Player(100, 100, false);
+        Player p = new Player(100, 100, true, false);
         Screen o = p.getScreen();
         goUP(p);
         assertEquals((new Tuple<Integer, Integer>(1, 0)).toString(), p.getScreen().getLocation().toString());
@@ -159,7 +159,7 @@ public class TestRunner {
 
     @Test
     void returnOriginScreenTest() {
-        Player p = new Player(100, 100, false);
+        Player p = new Player(100, 100, true, false);
         Screen o = p.getScreen();
         while (p.getPos().b < 75) {
             p.keyInput(new int[]{1, 0, 0, 0, 0}, 0, 0);
@@ -177,8 +177,7 @@ public class TestRunner {
 
     @Test
     void resetTest() {
-        Player p = new Player(100, 100, false);
-        p.start();
+        Player p = new Player(100, 100, false, false);
         Screen o = p.getScreen();
         while (p.getPos().b < 75) {
             p.keyInput(new int[]{1, 0, 0, 0, 0}, 0, 0);
@@ -199,7 +198,7 @@ public class TestRunner {
 
     @Test
     void atkDirectionTest() {
-        Player p = new Player(100, 100, false);
+        Player p = new Player(100, 100, true, false);
         for (int i = 0; i < 100; i++) {
             Tuple<Float, Float> mousepos = new Tuple<Float, Float>((float) ((int) Math.random() * 100), (float) ((int) Math.random() * 100));
             p.keyInput(new int[]{0, 0, 0, 0, 1}, (int) ((float) mousepos.a), (int) ((float) mousepos.b));
@@ -214,7 +213,7 @@ public class TestRunner {
 
     @Test
     void enemyPathfindTest() {
-        Player p = new Player(100, 100, false);
+        Player p = new Player(100, 100, true, false);
         long wait;
         while (betweenDistance(new Tuple<>((float) ((int) p.getScreen().getLocation().a), (float) ((int) p.getScreen().getLocation().b)), new Tuple<Float, Float>(3.0f, 0.0f)) > 0) {
             goUP(p);
@@ -236,7 +235,7 @@ public class TestRunner {
 
     @Test
     void atkDmgTest() {
-        Player p = new Player(100, 100, false);
+        Player p = new Player(100, 100, true, false);
         goUP(p);
         List<ScreenElement> elems_before = p.getScreen().export();
         ScreenElement target = elems_before.get(0);
@@ -266,7 +265,7 @@ public class TestRunner {
 
     @Test
     void outputTest() {
-        Player p = new Player(100, 100, false);
+        Player p = new Player(100, 100, true, false);
         long wait;
         float phealth;
         for (int i = 1; i < 3; i++) {
@@ -294,7 +293,7 @@ public class TestRunner {
 
     @Test
     void wrongInputTest() {
-        Player p = new Player(100, 100, false);
+        Player p = new Player(100, 100, true, false);
         p.keyInput(new int[]{1, 1, 1}, 1, 1);
         String expected = "keyInput had a wrong format\nMake sure that Key Inputs are only called with an int array of length 4 and 2 integers".replaceAll("\\s+", "");
         assertEquals(expected, outputStreamCaptor.toString().replaceAll("\\s+", ""));
@@ -309,8 +308,7 @@ public class TestRunner {
 
     @Test
     void textoutflagtestTest() {
-        Player p = new Player(100, 100, true);
-        p.start();
+        Player p = new Player(100, 100, true, true);
         String expected = ("CurrentScreen: " + p.getScreen().getLocation().toString() + " contains:" + p.getClass() + "Pos:" + p.getPos().toString() + "HP:" + p.getHP().a + "/" + p.getHP().b).replaceAll("\\s+", "");
         long wait = System.currentTimeMillis();
         while (System.currentTimeMillis() - wait < 500) {

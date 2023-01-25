@@ -10,7 +10,7 @@ import Help.Tuple;
 public class Player extends ScreenElement {
     private HashMap<String, Screen> map = new HashMap<>();
     private Tuple<Integer, Integer> screenSize;
-    private boolean textout = false;
+    private boolean textout = false, godmode = false;
 
     /**
      * The public constructor of A player.
@@ -20,12 +20,14 @@ public class Player extends ScreenElement {
      * @param ySize   ScreenHeight
      * @param textout if the current screenElements should be printed to the terminal
      */
-    public Player(int xSize, int ySize, boolean textout) {
+    public Player(int xSize, int ySize, boolean godmode, boolean textout) {
         super(new Screen(new Tuple<Integer, Integer>(0, 0), new Tuple<Integer, Integer>(1, 1)), null, false, null,
                 new Tuple<Float, Float>(100.0f, 100.0f), 10, 50, 5, 50, 500, 0, 0, 1);
         this.screenSize = new Tuple<Integer, Integer>(xSize, ySize);
         this.textout = textout;
+        this.godmode = godmode;
         reset();
+        this.start();
     }
 
     /**
@@ -60,7 +62,7 @@ public class Player extends ScreenElement {
     public void run() {
         while (true) {
             try {
-                if (HP.a <= 0)
+                if (HP.a <= 0 && !godmode)
                     reset();
                 if (textout)
                     screen.textout();
@@ -94,6 +96,7 @@ public class Player extends ScreenElement {
         }
         if (keys[0] - keys[1] != 0 || keys[2] - keys[3] != 0)
             pos = moveto();
+        //Door tests
         if (pos.b - size < 5 && pos.a + size > screen.getSize().a / 2 - 20 && pos.a - size < screen.getSize().a / 2 + 20 && !screen.getlocked()) {
             moveScreen(new boolean[]{false, false, false, true});
         } else if (pos.b + size > screen.getSize().b - 5 && pos.a + size > screen.getSize().a / 2 - 20 && pos.a - size < screen.getSize().a / 2 + 20 && !screen.getlocked()) {
