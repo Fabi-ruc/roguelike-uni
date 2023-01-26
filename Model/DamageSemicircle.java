@@ -21,7 +21,7 @@ public class DamageSemicircle extends ScreenElement {
      * @param team     the team that spawned the damageSemiCircle, which will not be attacked
      * @param degrees  the degrees the damageSemiCircle is open
      */
-    public DamageSemicircle(Screen screen, Tuple<Float, Float> pos, Tuple<Float, Float> HP, int size, int atkdmg, int atkspeed, int facedir, int team, int degrees) {
+    protected DamageSemicircle(Screen screen, Tuple<Float, Float> pos, Tuple<Float, Float> HP, int size, int atkdmg, int atkspeed, int facedir, int team, int degrees) {
         super(screen, pos, false, null, HP, size, Integer.MAX_VALUE, 0, atkdmg, atkspeed, 0, Math.floorMod(facedir, 360), team);
         this.degrees = degrees;
         this.target = this;
