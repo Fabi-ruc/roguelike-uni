@@ -58,9 +58,9 @@ Player p = new Player(int x, int y, boolean godmode, boolean textout)
 
 * int x: breite des Spielfelds (Empfehlung größer 30)
 
-* boolean godmode: true: Kein reset so bald HP <= 0
-
-* false: reset so bald HP <= 0
+* boolean godmode: 
+    * true: Kein reset so bald HP <= 0
+    * false: reset so bald HP <= 0
 
 * boolean textout: 
     * true: jede halbe Sekunde wird eine Liste aller aktuell lebendigen Lebewesen ausgegeben
