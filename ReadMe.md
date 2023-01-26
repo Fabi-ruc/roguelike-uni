@@ -54,42 +54,37 @@ Man startet das Spiel einfach indem man einen neuen Spieler generiert.
 Player p = new Player(int x, int y, boolean godmode, boolean textout)
 ```
 
-int x: breite des Spielfelds (Empfehlung größer 30)
+* int x: breite des Spielfelds (Empfehlung größer 30)
 
-int x: breite des Spielfelds (Empfehlung größer 30)
+* int x: breite des Spielfelds (Empfehlung größer 30)
 
-boolean godmode: true: Kein reset so bald HP <= 0
+* boolean godmode: true: Kein reset so bald HP <= 0
 
-false: reset so bald HP <= 0
+* false: reset so bald HP <= 0
 
-boolean textout: true: jede halbe Sekunde wird eine Liste aller aktuell
-
-lebendigen Lebewesen ausgegeben
-false: Konsole wird nur zur Info bei falsch eingaben
-genutzt
-nun kann man sich bewegen mit.
+* boolean textout: 
+    * true: jede halbe Sekunde wird eine Liste aller aktuell lebendigen Lebewesen ausgegeben
+    * false: Konsole wird nur zur Info bei falsch eingaben genutzt nun kann man sich bewegen mit.
 ```
 p.keyInput(int[], int mx, int my)
 ```
 
-int[]: Repräsentiert alle möglichen Tasten die gedrückt werden
-können. Eine 1 stellt eine gedrückte Taste dar, eine 0 eine
-ungedrückte.
+* int[]: Repräsentiert alle möglichen Tasten die gedrückt werden
+    können. Eine 1 stellt eine gedrückte Taste dar, eine 0 eine
+    ungedrückte.
 
-0: in Richtung 0 auf der X-Achse gehen
+* 0: in Richtung 0 auf der X-Achse gehen
 
-1: in Richtung max. auf der X-Achse gehen
+* 1: in Richtung max. auf der X-Achse gehen
 
-2: in Richtung 0 auf der Y-Achse gehen
+* 2: in Richtung 0 auf der Y-Achse gehen
 
-3: in Richtung max. auf der Y-Achse gehen
+* 3: in Richtung max. auf der Y-Achse gehen
 
-5: Attacke ausführen
+* 5: Attacke ausführen
 
-mx: Punkt auf der X-Achse in dessen Richtung Attacken ausgeführt
-werden.
-my: Punkt auf der X-Achse in dessen Richtung Attacken ausgeführt
-werden.
+* mx: Punkt auf der X-Achse in dessen Richtung Attacken ausgeführt werden.
+* my: Punkt auf der X-Achse in dessen Richtung Attacken ausgeführt werden.
 
 Da mx und my keine Auswirkung auf Bewegungen haben, können diese, wenn man sich nur
 Bewegen will, mit beliebigen Zahlen gefüllt werden.
@@ -100,24 +95,24 @@ her wird keine neue Attacke ausgeführt.
 
 Außerdem hat man zugriff auf Methoden wie:
 * Screen:
-- getlocked(): gibt an ob die Türen einer Kachel offen sind
-- getSize(): gibt die Größe der Kachel
-- getLocation(): gibt den Offset einer Kachel vom Startpunk an
-- export(): gibt eine Liste an Kopien aller Lebewesen der Kachel
-- textout(): gibt alle relevanten Informationen einer Kachel aus
+    * getlocked(): gibt an ob die Türen einer Kachel offen sind
+    - getSize(): gibt die Größe der Kachel
+    - getLocation(): gibt den Offset einer Kachel vom Startpunk an
+    - export(): gibt eine Liste an Kopien aller Lebewesen der Kachel
+    - textout(): gibt alle relevanten Informationen einer Kachel aus
 
 * ScreenElement:
-- copy(): um eine Kopie des aktuellen ScreenElements, mit allen
-    relevanten Informationen zu bekommen
-- getPos(): um die aktuelle Position zu bekommen
-- friendly(int t) gibt aus ob ein Team t freundlich ist
-- facedirNsize(): gibt die facedir und die Größe in Form eines Tupels aus
-- run(): startet threads... sind sie aber schon lohnt sich also nur
-    wenn man einen Fehler generieren will
-- textout(): gibt alle relevanten Infos in der Konsole aus
+    - copy(): um eine Kopie des aktuellen ScreenElements, mit allen
+        relevanten Informationen zu bekommen
+    - getPos(): um die aktuelle Position zu bekommen
+    - friendly(int t) gibt aus ob ein Team t freundlich ist
+    - facedirNsize(): gibt die facedir und die Größe in Form eines Tupels aus
+    - run(): startet threads... sind sie aber schon lohnt sich also nur
+        wenn man einen Fehler generieren will
+    - textout(): gibt alle relevanten Infos in der Konsole aus
 
 * Player:
-- getScreen(): um die aktuelle Kachel zu bekommen
+    - getScreen(): um die aktuelle Kachel zu bekommen
 
 * DamageSemiCircles
-- get deg: gibt den Öffnungs-Radius
+    - get deg: gibt den Öffnungs-Radius
