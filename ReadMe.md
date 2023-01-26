@@ -86,12 +86,11 @@ ungedrückte.
 
 5: Attacke ausführen
 
-```
 mx: Punkt auf der X-Achse in dessen Richtung Attacken ausgeführt
 werden.
 my: Punkt auf der X-Achse in dessen Richtung Attacken ausgeführt
 werden.
-```
+
 Da mx und my keine Auswirkung auf Bewegungen haben, können diese, wenn man sich nur
 Bewegen will, mit beliebigen Zahlen gefüllt werden.
 
@@ -100,9 +99,14 @@ her wird keine neue Attacke ausgeführt.
 
 
 Außerdem hat man zugriff auf Methoden wie:
+* Screen:
+- getlocked(): gibt an ob die Türen einer Kachel offen sind
+- getSize(): gibt die Größe der Kachel
+- getLocation(): gibt den Offset einer Kachel vom Startpunk an
+- export(): gibt eine Liste an Kopien aller Lebewesen der Kachel
+- textout(): gibt alle relevanten Informationen einer Kachel aus
 
-- getScreen(): um die aktuelle Kachel zu bekommen
-    <br/>des Players
+* ScreenElement:
 - copy(): um eine Kopie des aktuellen ScreenElements, mit allen
     relevanten Informationen zu bekommen
 - getPos(): um die aktuelle Position zu bekommen
@@ -111,12 +115,9 @@ Außerdem hat man zugriff auf Methoden wie:
 - run(): startet threads... sind sie aber schon lohnt sich also nur
     wenn man einen Fehler generieren will
 - textout(): gibt alle relevanten Infos in der Konsole aus
-    <br/>eines ScreenElements
+
+* Player:
+- getScreen(): um die aktuelle Kachel zu bekommen
+
+* DamageSemiCircles
 - get deg: gibt den Öffnungs-Radius
-    <br/>eines DamageSemiCircles
-- getlocked(): gibt an ob die Türen einer Kachel offen sind
-- getSize(): gibt die Größe der Kachel
-- getLocation(): gibt den Offset einer Kachel vom Startpunk an
-- export(): gibt eine Liste an Kopien aller Lebewesen der Kachel
-- textout(): gibt alle relevanten Informationen einer Kachel aus
-    <br/>des Screens
