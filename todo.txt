@@ -2,9 +2,4 @@
 . depth search for finding enemies
 . Obstacels as screenelements?
 . isOccupied to see wether a spaceis free to move to
-. redo export
 
-Fragen:
-1. Help package, zählt von Zeilen her zu Model?
-
-2. Block vorstellen
