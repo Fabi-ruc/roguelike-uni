@@ -89,4 +89,4 @@ In addition, you have access to methods such as:
 * Player:
     - getScreen(): returns the current tile
 * DamageSemiCircles
-    - get deg: returns the opening radius
+    - getdeg(): returns the opening radius
